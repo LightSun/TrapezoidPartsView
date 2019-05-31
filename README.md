@@ -1,5 +1,5 @@
 # TrapezoidPartsView
 the Trapezoid Parts View which draw Trapezoid image. and event on it.
 
-<img src="/TrapezoidPartsViewApp/TrapezoidPartsView.gif"/>
-<img src="/TrapezoidPartsViewApp/TrapezoidPartsView2.gif"/>
+<img src="/TrapezoidPartsViewApp/res/TrapezoidPartsView.gif"/>
+<img src="/TrapezoidPartsViewApp/res/TrapezoidPartsView2.gif"/>
