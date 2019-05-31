@@ -87,6 +87,7 @@ public class TrapezoidPartsView extends View {
                 mTouchAlpha = (int) (alpha * 255);
                 mParam.mSpace = a.getDimensionPixelSize(R.styleable.TrapezoidPartsView_tpv_space, mParam.mSpace);
                 mParam.mTextMarginTop = a.getDimensionPixelSize(R.styleable.TrapezoidPartsView_tpv_text_margin_top, mParam.mTextMarginTop);
+                mParam.mTextMarginBottom = a.getDimensionPixelSize(R.styleable.TrapezoidPartsView_tpv_text_margin_bottom, mParam.mTextMarginBottom);
                 mAngle = a.getFloat(R.styleable.TrapezoidPartsView_tpv_angle, mAngle);
                 mImageRatio = a.getFloat(R.styleable.TrapezoidPartsView_tpv_image_aspect_ratio, mImageRatio);
                 mDebug = a.getBoolean(R.styleable.TrapezoidPartsView_tpv_debug, mDebug);
@@ -283,7 +284,8 @@ public class TrapezoidPartsView extends View {
         if (mParts == null || mParts.isEmpty()) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         } else {
-            int height = mParam.mPartHeight + mParam.mTextMarginTop + rect.height() + getPaddingTop() + getPaddingBottom();
+            int height = mParam.mPartHeight + mParam.mTextMarginTop + rect.height() + mParam.mTextMarginBottom
+                    + getPaddingTop() + getPaddingBottom();
           /*  int width = size * mParam.mTrapezoidMaxLength - (size - 1) * (mParam.mShortLength - mParam.mSpace)
                     + getPaddingLeft() + getPaddingRight();*/
             super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
@@ -425,6 +427,7 @@ public class TrapezoidPartsView extends View {
 
         int mSpace = 40;
         int mTextMarginTop = 40;
+        int mTextMarginBottom = 20;
     }
 
     /**

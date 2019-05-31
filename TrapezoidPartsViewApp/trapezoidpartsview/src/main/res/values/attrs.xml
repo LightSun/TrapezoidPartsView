@@ -8,6 +8,7 @@
         <attr name="tpv_text_size" format="dimension|reference"/>
         <attr name="tpv_text_color" format="color|reference"/>
         <attr name="tpv_text_margin_top" format="dimension|reference"/>
+        <attr name="tpv_text_margin_bottom" format="dimension|reference"/>
         <!-- the min angle of Trapezoid -->
         <attr name="tpv_angle" format="float|reference"/>
         <!-- the background =aspect ratio -->

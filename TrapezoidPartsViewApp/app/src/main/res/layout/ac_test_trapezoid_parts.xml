@@ -20,7 +20,15 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="5dp"
+        app:tpv_angle="68"
+        app:tpv_image_aspect_ratio="1.848485"
+        app:tpv_text_color="@android:color/white"
+        app:tpv_text_margin_top="15dp"
+        app:tpv_text_margin_bottom="5dp"
+        app:tpv_space="16dp"
+        app:tpv_text_size="18sp"
+        app:tpv_touch_alpha="0.7"
+        app:tpv_debug="false"
         />
 
 </LinearLayout>
