@@ -443,10 +443,27 @@ public class TrapezoidPartsView extends View {
         void onClickTrapezoidPart(TrapezoidPartsView view, TrapezoidPart part);
     }
 
+    /**
+     * the parcel callback of TrapezoidPart.
+     * @author heaven7
+     */
     public interface TrapezoidPartParcelCallback {
 
+        /**
+         * called on write TrapezoidPart to bundle
+         * @param context the context
+         * @param out the bundle out
+         * @param index the index
+         * @param part the part
+         */
         void writeToBundle(Context context, Bundle out, int index, TrapezoidPart part);
-
+        /**
+         * called on read TrapezoidPart from bundle
+         * @param context the context
+         * @param in the input bundle
+         * @param index the index
+         * @param part the part
+         */
         void readFromBundle(Context context, Bundle in, int index, TrapezoidPart part);
     }
 
