@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TrapezoidPartsView">
+        <!-- the space between TrapezoidPart -->
+        <attr name="tpv_space" format="dimension|reference"/>
+        <!-- the touched alpha . in float -->
+        <attr name="tpv_touch_alpha" format="float|reference"/>
+        <attr name="tpv_text_size" format="dimension|reference"/>
+        <attr name="tpv_text_color" format="color|reference"/>
+        <attr name="tpv_text_margin_top" format="dimension|reference"/>
+        <!-- the min angle of Trapezoid -->
+        <attr name="tpv_angle" format="float|reference"/>
+        <!-- the background =aspect ratio -->
+        <attr name="tpv_image_aspect_ratio" format="float|reference"/>
+        <attr name="tpv_debug" format="boolean|reference"/>
+    </declare-styleable>
+
+</resources>
