@@ -3,6 +3,7 @@ package com.heaven7.android.trapezoid.app;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,6 +27,22 @@ public class TestTrapezoidPartsView extends BaseActivity implements TrapezoidPar
     @BindView(R.id.tpv)
     TrapezoidPartsView mTpv;
 
+    private int[] mBgIds = {
+            R.drawable.plan_database_bg,
+            R.drawable.plan_music_bg,
+            R.drawable.plan_editorz_bg,
+    };
+    private int[] mIconIds = {
+            R.drawable.plan_database,
+            R.drawable.plan_music,
+            R.drawable.plan_editor,
+    };
+    private String[] mStrs = {
+            "Projects",
+            "Music",
+            "Edit"
+    };
+
     @Override
     protected int getLayoutId() {
         return R.layout.ac_test_trapezoid_parts;
@@ -34,6 +51,22 @@ public class TestTrapezoidPartsView extends BaseActivity implements TrapezoidPar
     @Override
     protected void onInitialize(Context context, Bundle savedInstanceState) {
         mTpv.setOnTrapezoidPartClickListener(this);
+        mTpv.setTrapezoidPartParcelCallback(new TrapezoidPartsView.TrapezoidPartParcelCallback() {
+            @Override
+            public void writeToBundle(Context context, Bundle out, int index, TrapezoidPartsView.TrapezoidPart part) {
+                out.putInt("bg_id", mBgIds[index]);
+                out.putInt("icon_id", mIconIds[index]);
+            }
+            @Override
+            public void readFromBundle(Context context, Bundle in, int index, TrapezoidPartsView.TrapezoidPart part) {
+                int bgId = in.getInt("bg_id");
+                int iconId = in.getInt("icon_id");
+                BitmapDrawable bgDrawable = (BitmapDrawable) context.getResources().getDrawable(bgId);
+                Drawable icon = context.getResources().getDrawable(iconId);
+                part.setBgIcon(bgDrawable.getBitmap());
+                part.setIcon(icon);
+            }
+        });
     }
 
     @OnClick(R.id.bt1)
@@ -44,26 +77,11 @@ public class TestTrapezoidPartsView extends BaseActivity implements TrapezoidPar
 
     private List<TrapezoidPartsView.TrapezoidPart> createTrapezoidParts() {
         List<TrapezoidPartsView.TrapezoidPart> list = new ArrayList<>();
-        int[] bgs = {
-                R.drawable.plan_database_bg,
-                R.drawable.plan_music_bg,
-                R.drawable.plan_editorz_bg,
-        };
-        int[] icons = {
-                R.drawable.plan_database,
-                R.drawable.plan_music,
-                R.drawable.plan_editor,
-        };
-        String[] strs = {
-                "Projects",
-                "Music",
-                "Edit"
-        };
-        for (int i = 0 ; i < bgs.length ; i ++){
+        for (int i = 0; i < mBgIds.length ; i ++){
             TrapezoidPartsView.TrapezoidPart part = new TrapezoidPartsView.TrapezoidPart();
-            part.setBgIcon(getDrawableBitmap(bgs[i]));
-            part.setIcon(getResources().getDrawable(icons[i]));
-            part.setText(strs[i]);
+            part.setBgIcon(getDrawableBitmap(mBgIds[i]));
+            part.setIcon(getResources().getDrawable(mIconIds[i]));
+            part.setText(mStrs[i]);
             list.add(part);
         }
         return list;
@@ -77,4 +95,5 @@ public class TestTrapezoidPartsView extends BaseActivity implements TrapezoidPar
     public void onClickTrapezoidPart(TrapezoidPartsView view, TrapezoidPartsView.TrapezoidPart part) {
         DefaultPrinter.getDefault().debug(TAG , "onClickTrapezoidPart", part.getText());
     }
+
 }

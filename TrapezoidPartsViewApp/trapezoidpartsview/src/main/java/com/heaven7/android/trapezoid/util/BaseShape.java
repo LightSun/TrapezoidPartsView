@@ -2,6 +2,8 @@ package com.heaven7.android.trapezoid.util;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by heaven7 on 2019/5/30.
@@ -16,7 +18,7 @@ public abstract class BaseShape<T> {
             return range.contains(x, y);
         }
     }
-    public static class TriangleRange{
+    public static class TriangleRange implements Parcelable {
         Point p1;
         Point p2;
         Point p3;
@@ -41,6 +43,39 @@ public abstract class BaseShape<T> {
         public void setP3(Point p3) {
             this.p3 = p3;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeParcelable(p1, flags);
+            dest.writeParcelable(p2, flags);
+            dest.writeParcelable(p3, flags);
+        }
+
+        private void readFromParcel(Parcel source, ClassLoader loader) {
+            p1 = source.readParcelable(loader);
+            p2 = source.readParcelable(loader);
+            p3 = source.readParcelable(loader);
+        }
+        public static final Creator<TriangleRange> CREATOR = new ClassLoaderCreator<TriangleRange>() {
+            @Override
+            public TriangleRange createFromParcel(Parcel source, ClassLoader loader) {
+                TriangleRange tr = new TriangleRange();
+                tr.readFromParcel(source, loader);
+                return tr ;
+            }
+            @Override
+            public TriangleRange createFromParcel(Parcel source) {
+                return createFromParcel(source, null);
+            }
+            @Override
+            public TriangleRange[] newArray(int size) {
+                return new TriangleRange[size];
+            }
+        };
     }
 
     public static class TriangleShape extends BaseShape<TriangleRange> {
