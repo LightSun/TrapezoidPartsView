@@ -48,7 +48,7 @@
         return list;
     }
 ```
-- 序列化支持(用于onSaveInstanceState 和onRestoreInstanceState)
+- Parcel序列化支持(用于onSaveInstanceState 和onRestoreInstanceState)
 ```java
 
     private int[] mBgIds = {
