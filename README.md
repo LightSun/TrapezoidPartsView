@@ -7,6 +7,17 @@
 
 ## 使用
 --------------
+- Gradle
+```java
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+ implementation 'com.github.LightSun:TrapezoidPartsView:1.0.1'
+```
 - xml中
 ```java
   <com.heaven7.android.trapezoid.TrapezoidPartsView
@@ -84,3 +95,44 @@
             }
         });
 ```
+## 自定义属性详解
+------------
+```java
+<declare-styleable name="TrapezoidPartsView">
+        <!-- 各个梯形之间的间隙（水平方向） -->
+        <attr name="tpv_space" format="dimension|reference"/>
+        <!-- 触摸梯形时的透明度。（用于2态效果） -->
+        <attr name="tpv_touch_alpha" format="float|reference"/>
+        <!-- 文本大小 --> 
+        <attr name="tpv_text_size" format="dimension|reference"/>
+        <!-- 文本颜色 --> 
+        <attr name="tpv_text_color" format="color|reference"/>
+        <!-- 文本距离顶部 --> 
+        <attr name="tpv_text_margin_top" format="dimension|reference"/>
+         <!-- 文本距离底部 --> 
+        <attr name="tpv_text_margin_bottom" format="dimension|reference"/>
+        <!-- 梯形的角度。用于动态计算梯形高度。使得可以等比缩放 -->
+        <attr name="tpv_angle" format="float|reference"/>
+        <!-- 梯形背景图的比例。用于等比缩放 -->
+        <attr name="tpv_image_aspect_ratio" format="float|reference"/>
+        <!-- 是否开启debug模式。debug下只会绘制边框 -->
+        <attr name="tpv_debug" format="boolean|reference"/>
+    </declare-styleable>
+```
+
+ ## License
+
+    Copyright 2019  
+                    heaven7(donshine723@gmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
