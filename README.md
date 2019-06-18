@@ -125,6 +125,8 @@ allprojects {
         <attr name="tpv_angle" format="float|reference"/>
         <!-- 梯形背景图的比例。用于等比缩放 -->
         <attr name="tpv_image_aspect_ratio" format="float|reference"/>
+	<!-- 是否全部用平行四边形 --> 
+	<attr name="tpv_all_parallelogram" format="boolean|reference"/>
         <!-- 是否开启debug模式。debug下只会绘制边框 -->
         <attr name="tpv_debug" format="boolean|reference"/>
     </declare-styleable>
