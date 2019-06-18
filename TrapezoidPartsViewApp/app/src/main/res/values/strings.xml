@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TrapezoidPartsViewApp</string>
+    <string name="TestTrapezoidPartsView2">全部平行四边形</string>
+    <string name="TestTrapezoidPartsView">俩边梯形，中间平行四边形</string>
 </resources>

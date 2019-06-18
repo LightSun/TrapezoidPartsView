@@ -13,6 +13,8 @@
         <attr name="tpv_angle" format="float|reference"/>
         <!-- the background =aspect ratio -->
         <attr name="tpv_image_aspect_ratio" format="float|reference"/>
+        <!-- indicate all parts are parallelogram or not. -->
+        <attr name="tpv_all_parallelogram" format="boolean|reference"/>
         <attr name="tpv_debug" format="boolean|reference"/>
     </declare-styleable>
 

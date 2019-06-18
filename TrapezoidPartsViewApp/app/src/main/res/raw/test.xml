@@ -1,0 +1,15 @@
+<root>
+    <data>
+        <import name="xxx.xxx.xx" alias = "X1"/>
+        <var />
+    </data>
+
+    <scene class= "dff.xx.xxs.dd">
+         <state tag="1" p1_type="xx.xx.xx" p2_type="xxx">
+             {
+                $p1.a();
+                a.b().c(5).d($p1);
+             }
+         </state>
+    </scene>
+</root>

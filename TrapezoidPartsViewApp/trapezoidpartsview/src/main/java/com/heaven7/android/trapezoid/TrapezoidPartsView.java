@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 梯形控件
+ * 梯形和平行四边形 .控件
  * @author heaven7
  */
 public class TrapezoidPartsView extends View {
@@ -51,6 +51,9 @@ public class TrapezoidPartsView extends View {
 
     private int mTouchAlpha = 179;
     private GestureDetectorCompat mGesture;
+
+    /** indicate all parts is Parallelogram. */
+    private boolean mAllParallelogram;
 
     private TrapezoidPartParcelCallback mParcelCallback;
     private OnTrapezoidPartClickListener mListener;
@@ -93,6 +96,7 @@ public class TrapezoidPartsView extends View {
                 mDebug = a.getBoolean(R.styleable.TrapezoidPartsView_tpv_debug, mDebug);
                 mTextSize = a.getDimensionPixelSize(R.styleable.TrapezoidPartsView_tpv_text_size, mTextSize);
                 mTextColor = a.getColor(R.styleable.TrapezoidPartsView_tpv_text_color, mTextColor);
+                mAllParallelogram = a.getBoolean(R.styleable.TrapezoidPartsView_tpv_all_parallelogram, false);
             } finally {
                 a.recycle();
             }
@@ -172,24 +176,59 @@ public class TrapezoidPartsView extends View {
 
         int left = getPaddingLeft();
         int top = getPaddingTop();
+        int bottom = top + mPartHeight;
         //handle left.(p1,p2,p3, 从左往右。从上到下)
         TrapezoidPart leftPart = mParts.get(0);
-        Rect rect_left_part = leftPart.getRect();
-        rect_left_part.set(left, top, left + mParam.mTrapezoidMaxLength - shortLen, top + mPartHeight);
-        Point p1 = new Point(rect_left_part.right, rect_left_part.top);
-        Point p2 = new Point(p1.x, p1.y + mPartHeight);
-        Point p3 = new Point(left + mParam.mTrapezoidMaxLength, p1.y);
-        BaseShape.TriangleRange triangle = leftPart.getRightTriangle();
-        triangle.setP1(p1);
-        triangle.setP2(p2);
-        triangle.setP3(p3);
 
-        if (mDebug) {
-            mRectF.set(rect_left_part);
-            mPath.addRect(mRectF, Path.Direction.CW);
-            mPath.moveTo(p1.x, p1.y);
-            mPath.lineTo(p3.x, p3.y);
-            mPath.lineTo(p2.x, p2.y);
+        if(mAllParallelogram){
+            BaseShape.TriangleRange leftTriangle = leftPart.getLeftTriangle();
+            BaseShape.TriangleRange rightTriangle = leftPart.getRightTriangle();
+            Rect rect_left_part = leftPart.getRect();
+
+            Point p1 = new Point(left, bottom);
+            Point p3 = new Point(p1.x + mParam.mShortLength, p1.y);
+            Point p2 = new Point(p3.x, top);
+            leftTriangle.setP1(p1);
+            leftTriangle.setP2(p2);
+            leftTriangle.setP3(p3);
+
+            //p11 -> p2 , p22-> p1 , p33 -> p11
+            Point p11 = new Point(p2.x + mParam.mTrapezoidSecondLength - mParam.mShortLength, p2.y);
+            Point p33 = new Point(p11.x + mParam.mShortLength, p11.y);
+            Point p22 = new Point(p1.x + mParam.mTrapezoidSecondLength, p1.y);
+            rightTriangle.setP1(p11);
+            rightTriangle.setP2(p22);
+            rightTriangle.setP3(p33);
+            rect_left_part.set(p2.x, p2.y, p22.x, p22.y);
+            if (mDebug) {
+                mRectF.set(rect_left_part);
+                mPath.addRect(mRectF, Path.Direction.CW);
+                mPath.moveTo(p1.x, p1.y);
+                mPath.lineTo(p3.x, p3.y);
+                mPath.lineTo(p2.x, p2.y);
+
+                mPath.moveTo(p11.x, p11.y);
+                mPath.lineTo(p33.x, p33.y);
+                mPath.lineTo(p22.x, p22.y);
+            }
+        }else {
+            Rect rect_left_part = leftPart.getRect();
+            rect_left_part.set(left, top, left + mParam.mTrapezoidMaxLength - shortLen, bottom);
+            Point p1 = new Point(rect_left_part.right, rect_left_part.top);
+            Point p2 = new Point(p1.x, p1.y + mPartHeight);
+            Point p3 = new Point(left + mParam.mTrapezoidMaxLength, p1.y);
+            BaseShape.TriangleRange triangle = leftPart.getRightTriangle();
+            triangle.setP1(p1);
+            triangle.setP2(p2);
+            triangle.setP3(p3);
+
+            if (mDebug) {
+                mRectF.set(rect_left_part);
+                mPath.addRect(mRectF, Path.Direction.CW);
+                mPath.moveTo(p1.x, p1.y);
+                mPath.lineTo(p3.x, p3.y);
+                mPath.lineTo(p2.x, p2.y);
+            }
         }
         //handle centers
         Point lastTailP = leftPart.getRightTriangle().getP2();
@@ -233,22 +272,56 @@ public class TrapezoidPartsView extends View {
 
         //handle right
         TrapezoidPart rightPart = mParts.get(mParts.size() - 1);
-        triangle = rightPart.getLeftTriangle();
+        if(mAllParallelogram){
+            BaseShape.TriangleRange leftTriangle = leftPart.getLeftTriangle();
+            BaseShape.TriangleRange rightTriangle = leftPart.getRightTriangle();
+            Rect rect = leftPart.getRect();
 
-        p1 = new Point(lastTailP.x + mParam.mSpace, lastTailP.y);
-        p3 = new Point(p1.x + shortLen, p1.y);
-        p2 = new Point(p3.x, top);
-        triangle.setP2(p2);
-        triangle.setP3(p3);
-        triangle.setP1(p1);
+            Point p1 = new Point(lastTailP.x + mParam.mSpace, lastTailP.y);
+            Point p3 = new Point(p1.x + shortLen, p1.y);
+            Point p2 = new Point(p3.x, top);
+            leftTriangle.setP2(p2);
+            leftTriangle.setP3(p3);
+            leftTriangle.setP1(p1);
 
-        rightPart.getRect().set(p2.x, p2.y, p2.x + mParam.mTrapezoidSecondLength, rect_left_part.bottom);
-        if (mDebug) {
-            mRectF.set(rightPart.getRect());
-            mPath.addRect(mRectF, Path.Direction.CW);
-            mPath.moveTo(p3.x, p3.y);
-            mPath.lineTo(p1.x, p1.y);
-            mPath.lineTo(p2.x, p2.y);
+            //p11 -> p2 , p22-> p1 , p33 -> p11
+            Point p11 = new Point(p2.x + mParam.mTrapezoidSecondLength - mParam.mShortLength, p2.y);
+            Point p33 = new Point(p11.x + mParam.mShortLength, p11.y);
+            Point p22 = new Point(p1.x + mParam.mTrapezoidSecondLength, p1.y);
+            rightTriangle.setP1(p11);
+            rightTriangle.setP2(p22);
+            rightTriangle.setP3(p33);
+
+            rect.set(p2.x, p2.y, p22.x, p22.y);
+            if (mDebug) {
+                mRectF.set(rect);
+                mPath.addRect(mRectF, Path.Direction.CW);
+                mPath.moveTo(p1.x, p1.y);
+                mPath.lineTo(p3.x, p3.y);
+                mPath.lineTo(p2.x, p2.y);
+
+                mPath.moveTo(p11.x, p11.y);
+                mPath.lineTo(p33.x, p33.y);
+                mPath.lineTo(p22.x, p22.y);
+            }
+        }else {
+            BaseShape.TriangleRange triangle = rightPart.getLeftTriangle();
+
+            Point p1 = new Point(lastTailP.x + mParam.mSpace, lastTailP.y);
+            Point p3 = new Point(p1.x + shortLen, p1.y);
+            Point p2 = new Point(p3.x, top);
+            triangle.setP2(p2);
+            triangle.setP3(p3);
+            triangle.setP1(p1);
+
+            rightPart.getRect().set(p2.x, p2.y, p2.x + mParam.mTrapezoidSecondLength, bottom);
+            if (mDebug) {
+                mRectF.set(rightPart.getRect());
+                mPath.addRect(mRectF, Path.Direction.CW);
+                mPath.moveTo(p3.x, p3.y);
+                mPath.lineTo(p1.x, p1.y);
+                mPath.lineTo(p2.x, p2.y);
+            }
         }
     }
 
@@ -402,14 +475,15 @@ public class TrapezoidPartsView extends View {
     private void findFocusPart(MotionEvent e) {
         int x = (int) e.getX();
         int y = (int) e.getY();
+        Point p = new Point(x, y);
         for (TrapezoidPart part : mParts) {
-            if (mRectShape.isPointIn(part.rect, x, y)) {
+            if (mRectShape.isPointIn(part.rect, p)) {
                 mFocusPart = part;
                 break;
-            } else if (part.leftRange != null && mTriangleShape.isPointIn(part.leftRange, x, y)) {
+            } else if (part.leftRange != null && mTriangleShape.isPointIn(part.leftRange, p)) {
                 mFocusPart = part;
                 break;
-            } else if (part.rightRange != null && mTriangleShape.isPointIn(part.rightRange, x, y)) {
+            } else if (part.rightRange != null && mTriangleShape.isPointIn(part.rightRange, p)) {
                 mFocusPart = part;
                 break;
             }

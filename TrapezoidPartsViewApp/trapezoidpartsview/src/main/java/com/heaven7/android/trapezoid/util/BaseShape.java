@@ -10,12 +10,12 @@ import android.os.Parcelable;
  */
 public abstract class BaseShape<T> {
 
-    public abstract boolean isPointIn(T range, int x, int y);
+    public abstract boolean isPointIn(T range, Point p);
 
     public static class RectangleShape extends BaseShape<Rect> {
         @Override
-        public boolean isPointIn(Rect range, int x, int y) {
-            return range.contains(x, y);
+        public boolean isPointIn(Rect range, Point p) {
+            return range.contains(p.x, p.y);
         }
     }
     public static class TriangleRange implements Parcelable {
@@ -80,11 +80,10 @@ public abstract class BaseShape<T> {
 
     public static class TriangleShape extends BaseShape<TriangleRange> {
         @Override
-        public boolean isPointIn(TriangleRange range, int x, int y) {
+        public boolean isPointIn(TriangleRange range, Point P) {
             if(range == null){
                 return false;
             }
-            Point P = new Point(x, y);
             Point A = range.getP1();
             Point B = range.getP2();
             Point C = range.getP3();
