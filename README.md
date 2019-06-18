@@ -59,6 +59,16 @@ allprojects {
         return list;
     }
 ```
+- 设置点击事件监听器
+```java
+  mTpv.setOnTrapezoidPartClickListener(this);
+  
+    @Override
+    public void onClickTrapezoidPart(TrapezoidPartsView view, TrapezoidPartsView.TrapezoidPart part) {
+        DefaultPrinter.getDefault().debug(TAG , "onClickTrapezoidPart", part.getText());
+    }
+```
+
 - Parcel序列化支持(用于onSaveInstanceState 和onRestoreInstanceState)
 ```java
 
