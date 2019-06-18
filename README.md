@@ -16,7 +16,7 @@ allprojects {
 		}
 	}
 
- implementation 'com.github.LightSun:TrapezoidPartsView:1.0.1'
+ implementation 'com.github.LightSun:TrapezoidPartsView:<see release>'
 ```
 - xml中
 ```java
