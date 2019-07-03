@@ -67,6 +67,8 @@ public class TestTrapezoidPartsView2 extends BaseActivity implements TrapezoidPa
                 part.setIcon(icon);
             }
         });
+        List<TrapezoidPartsView.TrapezoidPart> list = createTrapezoidParts();
+        mTpv.setParts(list);
     }
 
     @OnClick(R.id.bt1)
@@ -77,7 +79,7 @@ public class TestTrapezoidPartsView2 extends BaseActivity implements TrapezoidPa
 
     private List<TrapezoidPartsView.TrapezoidPart> createTrapezoidParts() {
         List<TrapezoidPartsView.TrapezoidPart> list = new ArrayList<>();
-        for (int i = 0; i < mBgIds.length ; i ++){
+        for (int i = 0; i <2 /*mBgIds.length*/ ; i ++){
             TrapezoidPartsView.TrapezoidPart part = new TrapezoidPartsView.TrapezoidPart();
             part.setBgIcon(getDrawableBitmap(mBgIds[i]));
             part.setIcon(getResources().getDrawable(mIconIds[i]));

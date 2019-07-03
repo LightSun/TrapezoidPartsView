@@ -17,9 +17,11 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.heaven7.android.trapezoid.util.BaseShape;
 import com.heaven7.android.trapezoid.util.DrawingUtils;
@@ -152,15 +154,25 @@ public class TrapezoidPartsView extends View {
     }
 
     private void computeTrapezoidParameters(Context context) {
+        int width = getLayoutParams().width;
+        if(width <= 0){
+            width = getDisplayMetrics(context).widthPixels;
+        }
         double tan = Math.tan(Math.toRadians(mAngle));
         int count = mParts.size();
-        int wholeWidth = getWidth() - getPaddingLeft() - getPaddingRight();
+        int wholeWidth = width - getPaddingLeft() - getPaddingRight();
         int val = wholeWidth - (count - 1) * mParam.mSpace;
         double a = count - (count - 1) / (tan * mImageRatio);
         mParam.mTrapezoidMaxLength = (int) (val / a);
         mParam.mPartHeight = (int) (mParam.mTrapezoidMaxLength / mImageRatio);
         mParam.mShortLength = (int) (mParam.mPartHeight / tan);
         mParam.mTrapezoidSecondLength = mParam.mTrapezoidMaxLength - mParam.mShortLength;
+    }
+    private static DisplayMetrics getDisplayMetrics(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(dm);
+        return dm;
     }
 
     private void computeAll() {
