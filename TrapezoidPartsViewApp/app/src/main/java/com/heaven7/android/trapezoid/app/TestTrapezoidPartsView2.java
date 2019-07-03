@@ -45,7 +45,7 @@ public class TestTrapezoidPartsView2 extends BaseActivity implements TrapezoidPa
 
     @Override
     protected int getLayoutId() {
-        return R.layout.ac_test_trapezoid_parts;
+        return R.layout.ac_test_trapezoid_parts2;
     }
 
     @Override

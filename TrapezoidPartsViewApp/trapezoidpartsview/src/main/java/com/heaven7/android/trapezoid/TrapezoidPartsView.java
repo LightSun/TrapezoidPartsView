@@ -285,9 +285,9 @@ public class TrapezoidPartsView extends View {
         //handle right
         TrapezoidPart rightPart = mParts.get(mParts.size() - 1);
         if(mAllParallelogram){
-            BaseShape.TriangleRange leftTriangle = leftPart.getLeftTriangle();
-            BaseShape.TriangleRange rightTriangle = leftPart.getRightTriangle();
-            Rect rect = leftPart.getRect();
+            BaseShape.TriangleRange leftTriangle = rightPart.getLeftTriangle();
+            BaseShape.TriangleRange rightTriangle = rightPart.getRightTriangle();
+            Rect rect = rightPart.getRect();
 
             Point p1 = new Point(lastTailP.x + mParam.mSpace, lastTailP.y);
             Point p3 = new Point(p1.x + shortLen, p1.y);
