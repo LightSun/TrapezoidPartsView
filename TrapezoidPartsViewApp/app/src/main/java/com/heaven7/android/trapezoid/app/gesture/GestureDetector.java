@@ -1,15 +1,14 @@
 package com.heaven7.android.trapezoid.app.gesture;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.GestureDetector.OnDoubleTapListener;
 
 /**
  * Detects various gestures and events using the supplied {@link MotionEvent}s.
@@ -203,11 +202,11 @@ public class GestureDetector {
     /**
      * Creates a GestureDetector with the supplied listener.
      * You may only use this constructor from a UI thread (this is the usual situation).
-     * @see android.os.Handler#Handler()
-     * 
+     * @see Handler#Handler()
+     *
      * @param listener the listener invoked for all the callbacks, this must
      * not be null.
-     * 
+     *
      * @throws NullPointerException if {@code listener} is null.
      *
      * @deprecated Use {@link #GestureDetector(Context, OnGestureListener)}
@@ -220,7 +219,7 @@ public class GestureDetector {
     /**
      * Creates a GestureDetector with the supplied listener.
      * You may only use this constructor from a {@link android.os.Looper} thread.
-     * @see android.os.Handler#Handler()
+     * @see Handler#Handler()
      *
      * @param context the application's context
      * @param listener the listener invoked for all the callbacks, this must
@@ -234,8 +233,8 @@ public class GestureDetector {
 
     /**
      * Creates a GestureDetector with the supplied listener that runs deferred events on the
-     * thread associated with the supplied {@link android.os.Handler}.
-     * @see android.os.Handler#Handler()
+     * thread associated with the supplied {@link Handler}.
+     * @see Handler#Handler()
      *
      * @param context the application's context
      * @param listener the listener invoked for all the callbacks, this must
@@ -259,11 +258,11 @@ public class GestureDetector {
         }*/
         init(context);
     }
-    
+
     /**
      * Creates a GestureDetector with the supplied listener that runs deferred events on the
-     * thread associated with the supplied {@link android.os.Handler}.
-     * @see android.os.Handler#Handler()
+     * thread associated with the supplied {@link Handler}.
+     * @see Handler#Handler()
      *
      * @param context the application's context
      * @param listener the listener invoked for all the callbacks, this must
@@ -343,11 +342,14 @@ public class GestureDetector {
         mIsLongpressEnabled = isLongpressEnabled;
     }
 
-    /** is in long press or not. */
+    /** (@added by heaven7) is in long press or not. */
     public boolean isInLongPress(){
         return mInLongPress;
     }
-
+    /** (@added by heaven7) get down motion event. */
+    public MotionEvent getDownMotionEvent() {
+        return mCurrentDownEvent;
+    }
     /**
      * @return true if longpress is enabled, else false.
      */

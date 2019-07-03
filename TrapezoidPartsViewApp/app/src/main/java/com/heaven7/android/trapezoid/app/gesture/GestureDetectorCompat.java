@@ -43,6 +43,7 @@ import android.view.ViewConfiguration;
  *          {@link #onTouchEvent(MotionEvent)}. The methods defined in your callback
  *          will be executed when the events occur.
  * </ul>
+ * //used to fix long press move
  */
 public final class GestureDetectorCompat {
     interface GestureDetectorCompatImpl {
@@ -51,6 +52,8 @@ public final class GestureDetectorCompat {
         boolean onTouchEvent(MotionEvent ev);
         void setIsLongpressEnabled(boolean enabled);
         void setOnDoubleTapListener(OnDoubleTapListener listener);
+
+        MotionEvent getDownMotionEvent();
     }
 
     static class GestureDetectorCompatImplBase implements GestureDetectorCompatImpl {
@@ -193,6 +196,11 @@ public final class GestureDetectorCompat {
             mDoubleTapListener = onDoubleTapListener;
         }
 
+        @Override
+        public MotionEvent getDownMotionEvent() {
+            return mCurrentDownEvent;
+        }
+
         /**
          * Set whether longpress is enabled, if this is enabled when a user
          * presses and holds down you get a longpress event and nothing further.
@@ -331,12 +339,12 @@ public final class GestureDetectorCompat {
                     break;
 
                 case MotionEvent.ACTION_MOVE:
-                    if (mInLongPress) {
-                        break;
-                    }
                     final float scrollX = mLastFocusX - focusX;
                     final float scrollY = mLastFocusY - focusY;
                     if (mIsDoubleTapping) {
+                        if (mInLongPress) {
+                            break;
+                        }
                         // Give the move events of the double-tap
                         handled |= mDoubleTapListener.onDoubleTapEvent(ev);
                     } else if (mAlwaysInTapRegion) {
@@ -498,6 +506,10 @@ public final class GestureDetectorCompat {
         public void setOnDoubleTapListener(OnDoubleTapListener listener) {
             mDetector.setOnDoubleTapListener(listener);
         }
+        @Override
+        public MotionEvent getDownMotionEvent() {
+            return mDetector.getDownMotionEvent();
+        }
     }
 
     private final GestureDetectorCompatImpl mImpl;
@@ -540,6 +552,14 @@ public final class GestureDetectorCompat {
         return mImpl.isLongpressEnabled();
     }
 
+    /** added by heaven7 */
+    public boolean isInLongPress(){
+        return mImpl.isInLongPress();
+    }
+    /** added by heaven7 */
+    public MotionEvent getDownMotionEvent(){
+        return mImpl.getDownMotionEvent();
+    }
     /**
      * Analyzes the given motion event and if applicable triggers the
      * appropriate callbacks on the {@link OnGestureListener} supplied.
